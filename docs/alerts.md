@@ -22,39 +22,48 @@ Ví dụ dưới đây minh họa mức độ cụ thể cần có. Học viên 
 
 ## Alert 1
 
-- Tên:
-- Severity:
-- Duration:
+- Tên: High_Latency_P95
+- Severity: high
+- Duration: 5m
 - Kênh thông báo: Slack
-- SLI/SLO liên quan:
-- Điều kiện và thời gian duy trì:
-- Ảnh hưởng tới người dùng:
-- Ba bước kiểm tra đầu tiên:
-- Mitigation tạm thời:
-- Owner:
+- SLI/SLO liên quan: latency_ms
+- Điều kiện và thời gian duy trì: p95_latency > 3000ms trong 5m
+- Ảnh hưởng tới người dùng: Người dùng phải đợi lâu để nhận được câu trả lời.
+- Ba bước kiểm tra đầu tiên: 
+  1. Kiểm tra dashboard Latency để xác định khoảng thời gian bị ảnh hưởng.
+  2. Lọc log để lấy correlation_id của các request chậm.
+  3. Mở Langfuse trace để xem span nào (retrieval hay generation) bị chậm.
+- Mitigation tạm thời: Rollback phiên bản prompt nếu có thay đổi gần đây, hoặc vô hiệu hóa retriever phụ nếu retriever chính quá tải.
+- Owner: on-call
 
 ## Alert 2
 
-- Tên:
-- Severity:
-- Duration:
+- Tên: High_Error_Rate
+- Severity: critical
+- Duration: 5m
 - Kênh thông báo: Slack
-- SLI/SLO liên quan:
-- Điều kiện và thời gian duy trì:
-- Ảnh hưởng tới người dùng:
+- SLI/SLO liên quan: error_rate
+- Điều kiện và thời gian duy trì: error_rate > 2% trong 5m
+- Ảnh hưởng tới người dùng: Người dùng không nhận được câu trả lời hoặc bị gián đoạn dịch vụ.
 - Ba bước kiểm tra đầu tiên:
-- Mitigation tạm thời:
-- Owner:
+  1. Xem dashboard Errors để xác nhận mức độ tăng error rate.
+  2. Tìm kiếm các log có mức độ ERROR hoặc `tool_success`=false để xác định nguyên nhân.
+  3. Sử dụng correlation_id tìm trace liên quan để kiểm tra xem LLM hay retriever gây lỗi.
+- Mitigation tạm thời: Bật fallback model nếu API LLM lỗi, hoặc sử dụng fallback retriever nếu database lỗi.
+- Owner: on-call
 
 ## Alert 3
 
-- Tên:
-- Severity:
-- Duration:
+- Tên: Quality_Score_Drop
+- Severity: warning
+- Duration: 10m
 - Kênh thông báo: Slack
-- SLI/SLO liên quan:
-- Điều kiện và thời gian duy trì:
-- Ảnh hưởng tới người dùng:
+- SLI/SLO liên quan: quality_score_avg
+- Điều kiện và thời gian duy trì: quality_score_avg < 0.75 trong 10m
+- Ảnh hưởng tới người dùng: Chất lượng câu trả lời bị giảm sút, sai lệch thông tin hoặc trả lời chung chung.
 - Ba bước kiểm tra đầu tiên:
-- Mitigation tạm thời:
-- Owner:
+  1. Kiểm tra panel Quality trên dashboard.
+  2. Kiểm tra retrieval success rate xem chất lượng giảm có phải do không tìm được ngữ cảnh.
+  3. Mở trace trên Langfuse để xem LLM sinh câu trả lời sai lệch ra sao so với context.
+- Mitigation tạm thời: Rollback phiên bản prompt cũ, hoặc xem xét cập nhật tài liệu trong RAG.
+- Owner: product-team
