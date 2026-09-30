@@ -7,43 +7,43 @@
 - **Họ và tên:** Nguyễn Hoàng Nam
 - **MSSV:** 2A202602485
 - **Lớp:** K4-L3B
-- **Repository URL:** `https://github.com/namchip2003-beep/K4-L3B-Day13-NguyenHoangNam-2A202602485-Monitoring-LLMOps`
-- **Commit SHA cuối:** (Bạn hãy tự điền sau khi commit nhé)
+- **Repository URL:** [github.com/namchip2003-beep/K4-L3B-Day13-NguyenHoangNam-2A202602485-Monitoring-LLMOps.git](https://github.com/namchip2003-beep/K4-L3B-Day13-NguyenHoangNam-2A202602485-Monitoring-LLMOps.git)
+- **Commit SHA cuối:  ef57656**
 - **Challenge ID:** `day13-k4-l3b-monitoring-llmops-v1`
-- **Tên project Langfuse cá nhân:** `day13-k4-l3b-2A202602485`
+- **Tên project Langfuse cá nhân:**  **day13-k4-l3b-2A202602485**
 
 ## 2. Evidence index
 
 Điền đúng đường dẫn tới evidence thực tế. Có thể đổi tên hoặc dùng nhiều ảnh nếu cần.
 
-| Evidence | Đường dẫn |
-|---|---|
-| Pytest cuối | `evidence/01-pytest.png` |
-| Log validator | `evidence/02-log-validator.png` |
+| Evidence            | Đường dẫn                           |
+| ------------------- | --------------------------------------- |
+| Pytest cuối        | `evidence/01-pytest.png`              |
+| Log validator       | `evidence/02-log-validator.png`       |
 | Dashboard validator | `evidence/03-dashboard-validator.png` |
-| Structured log | `evidence/04-structured-log.png` |
-| PII redaction | `evidence/05-pii-redaction.png` |
-| Trace list | `evidence/06-trace-list.png` |
-| Trace waterfall | `evidence/07-trace-waterfall.png` |
-| Trace metadata | `evidence/08-trace-metadata.png` |
-| Prompt versions | `evidence/09-prompt-versions.png` |
-| Prompt rollback | `evidence/10-prompt-rollback.png` |
-| Dashboard runtime | `evidence/11-dashboard-overview.png` |
-| Incident metric | `evidence/12-incident-metric.png` |
-| Incident log | `evidence/13-incident-log.png` |
-| Incident trace | `evidence/14-incident-trace.png` |
+| Structured log      | `evidence/04-structured-log.png`      |
+| PII redaction       | `evidence/05-pii-redaction.png`       |
+| Trace list          | `evidence/06-trace-list.png`          |
+| Trace waterfall     | `evidence/07-trace-waterfall.png`     |
+| Trace metadata      | `evidence/08-trace-metadata.png`      |
+| Prompt versions     | `evidence/09-prompt-versions.png`     |
+| Prompt rollback     | `evidence/10b-prompt-rollback.png`    |
+| Dashboard runtime   | `evidence/11-dashboard-overview.png`  |
+| Incident metric     | `evidence/12-incident-metric.png`     |
+| Incident log        | `evidence/13-incident-log.png`        |
+| Incident trace      | `evidence/14-incident-trace.png`      |
 
 ## 3. Kết quả kỹ thuật
 
-| Nội dung | Baseline | Kết quả cuối | Nhận xét |
-|---|---|---|---|
-| `validate_logs.py` | 0/100 | 100/100 | Đã xử lý log đúng cấu trúc jsonl và ẩn PII thành công |
-| `validate_dashboard.py` | 0/6 | 6/6 | Đủ 6 panel Metrics như hợp đồng |
-| `pytest` | Failed | Passed (24/24) | Vượt qua toàn bộ bài test |
-| Số traces hợp lệ | 0 | > 10 | Trace hiển thị đầy đủ trên Langfuse |
-| Số PII leak | > 0 | 0 | Các số thẻ, CCCD đều bị thay thế bằng [REDACTED_...] |
-| Latency P95 / TTFT P95 | > 3000ms | < 200ms / 50ms | Tốc độ đáp ứng rất nhanh khi không có sự cố |
-| Retrieval success rate | < 90% | > 95% | Mô phỏng RAG trả kết quả tốt |
+| Nội dung                 | Baseline | Kết quả cuối | Nhận xét                                                        |
+| ------------------------- | -------- | --------------- | ----------------------------------------------------------------- |
+| `validate_logs.py`      | 0/100    | 100/100         | Đã xử lý log đúng cấu trúc jsonl và ẩn PII thành công |
+| `validate_dashboard.py` | 0/6      | 6/6             | Đủ 6 panel Metrics như hợp đồng                             |
+| `pytest`                | Failed   | Passed (24/24)  | Vượt qua toàn bộ bài test                                    |
+| Số traces hợp lệ       | 0        | > 10            | Trace hiển thị đầy đủ trên Langfuse                        |
+| Số PII leak              | > 0      | 0               | Các số thẻ, CCCD đều bị thay thế bằng [REDACTED_...]      |
+| Latency P95 / TTFT P95    | > 3000ms | < 200ms / 50ms  | Tốc độ đáp ứng rất nhanh khi không có sự cố            |
+| Retrieval success rate    | < 90%    | > 95%           | Mô phỏng RAG trả kết quả tốt                                |
 
 ## 4. Logging và PII
 
@@ -56,7 +56,7 @@
 
 - **Cách xác nhận traces do chính tôi tạo trong project cá nhân:** Các trace xuất hiện trên giao diện dự án Langfuse tương ứng với cặp khóa public/secret khai báo trong `.env`.
 - **Cấu trúc root/retrieval/generation observations:** Quan sát gốc là `lab-agent-run` (type `agent`), gọi ra 2 child spans là `retrieval` (type `retriever`) và `generation` (type `generation`) sử dụng `@observe`.
-- **Cách nối trace với log:** Truyền `correlation_id` (được middleware tạo) vào tham số của `LabAgent.run`, từ đó lưu vào metadata của root trace trên Langfuse. 
+- **Cách nối trace với log:** Truyền `correlation_id` (được middleware tạo) vào tham số của `LabAgent.run`, từ đó lưu vào metadata của root trace trên Langfuse.
 - **Prompt name:** `day13-chat`
 - **Version/label baseline:** Version 1, label `baseline` và `production`
 - **Version/label candidate:** Version 2, label `candidate`
