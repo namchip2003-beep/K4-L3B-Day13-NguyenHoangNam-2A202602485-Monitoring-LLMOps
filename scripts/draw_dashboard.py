@@ -99,7 +99,7 @@ def main():
 
     plt.tight_layout()
     plt.savefig('dashboard_evidence.png')
-    print("Đã tạo và lưu hình ảnh dashboard tại dashboard_evidence.png")
+    print("Done")
 
 if __name__ == '__main__':
     main()
